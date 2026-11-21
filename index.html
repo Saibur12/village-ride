@@ -1,191 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Village Ride - Book Your Ride</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Village Ride</title>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f6fa;
-      color: #222;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    header {
-      background: #087b45;
-      color: white;
-      text-align: center;
-      padding: 24px 15px;
-    }
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f0f5f0;
+  color: #222;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 30px;
-    }
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 22px;
+  border-radius: 15px;
+  box-shadow: 0 3px 15px #ccc;
+}
 
-    header p {
-      margin-bottom: 0;
-    }
+h1 {
+  color: #16823b;
+  text-align: center;
+}
 
-    .container {
-      max-width: 500px;
-      margin: 25px auto;
-      padding: 20px;
-    }
+h2 {
+  text-align: center;
+}
 
-    .card {
-      background: white;
-      padding: 22px;
-      border-radius: 15px;
-      box-shadow: 0 3px 12px #00000012;
-    }
+.subtitle {
+  text-align: center;
+  color: #666;
+}
 
-    .vehicles {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 22px;
-    }
+label {
+  display: block;
+  margin-top: 14px;
+  font-weight: bold;
+}
 
-    .vehicle {
-      flex: 1;
-      padding: 18px 8px;
-      border: 2px solid #ddd;
-      border-radius: 12px;
-      background: white;
-      font-size: 17px;
-      cursor: pointer;
-    }
+input, select {
+  width: 100%;
+  padding: 13px;
+  margin-top: 7px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 16px;
+}
 
-    .vehicle.active {
-      border-color: #087b45;
-      background: #e8f7ee;
-    }
+.price {
+  background: #e9f7ed;
+  padding: 15px;
+  margin-top: 18px;
+  border-radius: 8px;
+  text-align: center;
+}
 
-    label {
-      display: block;
-      margin: 14px 0 7px;
-      font-weight: bold;
-    }
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 18px;
+  background: #16823b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    input {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-    }
+button:hover {
+  background: #10652d;
+}
 
-    .fare {
-      margin-top: 20px;
-      padding: 15px;
-      background: #e8f7ee;
-      border-radius: 10px;
-      text-align: center;
-      font-size: 19px;
-      font-weight: bold;
-    }
+.result {
+  display: none;
+  margin-top: 20px;
+  padding: 15px;
+  background: #eef8ff;
+  border-radius: 8px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
 
-    .book {
-      width: 100%;
-      margin-top: 18px;
-      padding: 15px;
-      border: none;
-      border-radius: 9px;
-      background: #087b45;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.demo {
+  text-align: center;
+  color: #777;
+  font-size: 13px;
+  margin-top: 20px;
+}
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-    }
-  </style>
+.driver {
+  margin-top: 12px;
+  padding: 12px;
+  background: #fff6e5;
+  border-radius: 8px;
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>🚕 Village Ride</h1>
-    <p>Your Village, Your Ride, Affordable Price</p>
-  </header>
+<div class="container">
 
-  <main class="container">
-    <div class="card">
-      <h2>Book Your Ride</h2>
-      demo only
+<h1>Village Ride</h1>
+<p class="subtitle">Your Village, Your Ride</p>
 
-  
-     
+<h2>Book Your Ride</h2>
 
-      <div class="vehicles">
-        <button class="vehicle active" onclick="chooseRide('Bike', this)">
-          🏍️ Bike
-        </button>
+<label>Select Vehicle</label>
+<select id="vehicle" onchange="updatePrice()">
+  <option value="Bike">Bike</option>
+  <option value="Auto">Auto</option>
+</select>
 
-        <button class="vehicle" onclick="chooseRide('Auto', this)">
-          🛺 Auto
-        </button>
-      </div>
+<div class="price">
+  <strong>Sample Starting Price</strong>
+  <h2 id="price">₹30</h2>
+  <small>Final fare will depend on distance.</small>
+</div>
 
-      <label for="pickup">Pickup Location</label>
-      <input id="pickup" placeholder="Enter pickup location">
+<label>Pickup Location</label>
+<input id="pickup" type="text"
+placeholder="Enter Pickup Location">
 
-      <label for="drop">Drop Location</label>
-      <input id="drop" placeholder="Enter drop location">
+<label>Drop Location</label>
+<input id="drop" type="text"
+placeholder="Enter Drop Location">
 
-      <div class="fare">
-        Estimated Fare: <span id="fare">₹30</span>
-      </div>
+<label>Passenger Name</label>
+<input id="passenger" type="text"
+placeholder="Enter Your Name">
 
-      <button class="book" onclick="bookRide()">
-        Book Now
-      </button>
-    </div>
-  </main>
+<label>Mobile Number</label>
+<input id="mobile" type="tel"
+placeholder="Enter Mobile Number">
 
-  <footer>
-    © 2026 Village Ride. All Rights Reserved.
-  </footer>
+<button onclick="bookRide()">Book Now</button>
 
-  <script>
-    let selectedRide = "Bike";
+<div class="result" id="result">
+  <h3>Booking Confirmation</h3>
 
-    function chooseRide(type, button) {
-      selectedRide = type;
+  <p><strong>Booking ID:</strong>
+  <span id="bookingId"></span></p>
 
-      document.querySelectorAll(".vehicle")
-        .forEach(item => item.classList.remove("active"));
+  <p><strong>Vehicle:</strong>
+  <span id="showVehicle"></span></p>
 
-      button.classList.add("active");
+  <p><strong>Pickup:</strong>
+  <span id="showPickup"></span></p>
 
-      document.getElementById("fare").textContent =
-        type === "Bike" ? "₹30 (estimate)" : "₹50 (estimate)";
-    }
+  <p><strong>Drop:</strong>
+  <span id="showDrop"></span></p>
 
-    function bookRide() {
-      const pickup = document.getElementById("pickup").value.trim();
-      const drop = document.getElementById("drop").value.trim();
+  <p><strong>Passenger:</strong>
+  <span id="showPassenger"></span></p>
 
-      if (!pickup || !drop) {
-        alert("Please enter pickup and drop locations.");
-        return;
-      }
+  <p><strong>Sample Price:</strong>
+  <span id="showPrice"></span></p>
 
-      alert(
-        "Your " + selectedRide +
-        " booking demo is ready! Pickup: " +
-        pickup + " | Drop: " + drop
-      );
-    }
-  </script>
+  <div class="driver">
+    <h3>Driver Details</h3>
+    <p>Driver Name: Not assigned yet</p>
+    <p>Driver Phone: Not available</p>
+    <p>Vehicle Number: Not available</p>
+    <small>Driver details will appear after connecting
+    the real booking system.</small>
+  </div>
+
+  <p><strong>Status:</strong> Demo Booking Only</p>
+</div>
+
+<p class="demo">Village Ride - Demo Version</p>
+
+</div>
+
+<script>
+function updatePrice() {
+  const vehicle = document.getElementById("vehicle").value;
+
+  const price = vehicle === "Bike" ? 30 : 60;
+
+  document.getElementById("price").innerText = "₹" + price;
+}
+
+function bookRide() {
+  const vehicle = document.getElementById("vehicle").value;
+  const pickup = document.getElementById("pickup").value.trim();
+  const drop = document.getElementById("drop").value.trim();
+  const passenger = document.getElementById("passenger").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+
+  if (!pickup || !drop || !passenger || !mobile) {
+    alert("Please fill all details.");
+    return;
+  }
+
+  if (!/^[0-9]{10}$/.test(mobile)) {
+    alert("Please enter a valid 10 digit mobile number.");
+    return;
+  }
+
+  const price = vehicle === "Bike" ? 30 : 60;
+  const bookingId = "VR" + Date.now().toString().slice(-8);
+
+  document.getElementById("bookingId").innerText = bookingId;
+  document.getElementById("showVehicle").innerText = vehicle;
+  document.getElementById("showPickup").innerText = pickup;
+  document.getElementById("showDrop").innerText = drop;
+  document.getElementById("showPassenger").innerText = passenger;
+  document.getElementById("showPrice").innerText = "₹" + price;
+
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+updatePrice();
+</script>
 
 </body>
 </html>
