@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Village Ride Admin Panel</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#1e293b}
+header{background:#166534;color:white;padding:22px;text-align:center}
+.container{max-width:1100px;margin:25px auto;padding:15px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px}
+.card{background:white;padding:18px;border-radius:10px;box-shadow:0 2px 8px #0001}
+.card h3{margin:0 0 10px;color:#475569}
+.number{font-size:28px;font-weight:bold;color:#166534}
+h2{margin-top:30px}
+.table-wrap{overflow-x:auto;background:white;border-radius:10px;padding:12px}
+table{width:100%;border-collapse:collapse;min-width:750px}
+th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left}
+th{background:#dcfce7}
+input,select{padding:9px;border:1px solid #ccc;border-radius:6px;max-width:150px}
+.note{background:#fff7ed;padding:14px;border-radius:8px;margin-top:20px;color:#9a3412}
+</style>
+</head>
+<body>
+<header>
+<h1>Village Ride</h1>
+<p>Admin Booking Dashboard</p>
+</header>
+<div class="container">
+<div class="stats">
+<div class="card"><h3>Total Bookings</h3><div class="number" id="total">0</div></div>
+<div class="card"><h3>Pending</h3><div class="number" id="pending">0</div></div>
+<div class="card"><h3>Accepted</h3><div class="number" id="accepted">0</div></div>
+<div class="card"><h3>Completed</h3><div class="number" id="completed">0</div></div>
+</div>
+<h2>Booking Management</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Booking ID</th><th>Customer</th><th>Mobile</th><th>Ride</th><th>Pickup</th><th>Drop</th><th>Status</th><th>Driver</th>
+</tr>
+</thead>
+<tbody id="bookingList">
+<tr><td colspan="8">No bookings available.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note">
+<strong>Admin Panel:</strong> यह शुरुआती Demo है। असली customer bookings दिखाने के लिए Database और Backend जोड़ना बाकी है।
+</div>
+</div>
+<script>
+const bookings=[];
+function showBookings(){
+const list=document.getElementById("bookingList");
+document.getElementById("total").textContent=bookings.length;
+document.getElementById("pending").textContent=bookings.filter(b=>b.status==="Pending").length;
+document.getElementById("accepted").textContent=bookings.filter(b=>b.status==="Accepted").length;
+document.getElementById("completed").textContent=bookings.filter(b=>b.status==="Completed").length;
+if(!bookings.length){
+list.innerHTML='<tr><td colspan="8">No bookings available.</td></tr>';
+return;
+}
+list.innerHTML="";
+bookings.forEach((b,i)=>{
+const row=document.createElement("tr");
+[b.id,b.customer,b.mobile,b.ride,b.pickup,b.drop].forEach(v=>{
+const cell=document.createElement("td");
+cell.textContent=v;
+row.appendChild(cell);
+});
+const statusCell=document.createElement("td");
+const status=document.createElement("select");
+["Pending","Accepted","Completed"].forEach(v=>{
+const option=document.createElement("option");
+option.value=v;option.textContent=v;status.appendChild(option);
+});
+status.value=b.status;
+status.addEventListener("change",()=>{
+bookings[i].status=status.value;showBookings();
+});
+statusCell.appendChild(status);row.appendChild(statusCell);
+const driverCell=document.createElement("td");
+const driver=document.createElement("input");
+driver.placeholder="Driver name";driver.value=b.driver||"";
+driver.addEventListener("change",()=>{bookings[i].driver=driver.value;});
+driverCell.appendChild(driver);row.appendChild(driverCell);
+list.appendChild(row);
+});
+}
+showBookings();
+</script>
+</body>
+</html>
