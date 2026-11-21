@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Village Ride - Book Your Ride</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6fa;
+      color: #222;
+    }
+
+    header {
+      background: #087b45;
+      color: white;
+      text-align: center;
+      padding: 24px 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    header p {
+      margin-bottom: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 25px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px #00000012;
+    }
+
+    .vehicles {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .vehicle {
+      flex: 1;
+      padding: 18px 8px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      background: white;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .vehicle.active {
+      border-color: #087b45;
+      background: #e8f7ee;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .fare {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f7ee;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .book {
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px;
+      border: none;
+      border-radius: 9px;
+      background: #087b45;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🚕 Village Ride</h1>
+    <p>Your Village, Your Ride, Affordable Price</p>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>Book Your Ride</h2>
+
+      <div class="vehicles">
+        <button class="vehicle active" onclick="chooseRide('Bike', this)">
+          🏍️ Bike
+        </button>
+
+        <button class="vehicle" onclick="chooseRide('Auto', this)">
+          🛺 Auto
+        </button>
+      </div>
+
+      <label for="pickup">Pickup Location</label>
+      <input id="pickup" placeholder="Enter pickup location">
+
+      <label for="drop">Drop Location</label>
+      <input id="drop" placeholder="Enter drop location">
+
+      <div class="fare">
+        Estimated Fare: <span id="fare">₹30</span>
+      </div>
+
+      <button class="book" onclick="bookRide()">
+        Book Now
+      </button>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 Village Ride. All Rights Reserved.
+  </footer>
+
+  <script>
+    let selectedRide = "Bike";
+
+    function chooseRide(type, button) {
+      selectedRide = type;
+
+      document.querySelectorAll(".vehicle")
+        .forEach(item => item.classList.remove("active"));
+
+      button.classList.add("active");
+
+      document.getElementById("fare").textContent =
+        type === "Bike" ? "₹30 (estimate)" : "₹50 (estimate)";
+    }
+
+    function bookRide() {
+      const pickup = document.getElementById("pickup").value.trim();
+      const drop = document.getElementById("drop").value.trim();
+
+      if (!pickup || !drop) {
+        alert("Please enter pickup and drop locations.");
+        return;
+      }
+
+      alert(
+        "Your " + selectedRide +
+        " booking demo is ready! Pickup: " +
+        pickup + " | Drop: " + drop
+      );
+    }
+  </script>
+
+</body>
+</html>
