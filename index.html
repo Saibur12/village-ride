@@ -3,110 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Village Ride - Admin Panel</title>
+<title>Village Ride - Customer</title>
 
 <style>
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f1f5f9;
-    color: #1e293b;
+    background: #f4f7fb;
+    color: #222;
 }
 
 header {
-    background: #166534;
+    background: #111827;
     color: white;
     padding: 20px;
     text-align: center;
 }
 
+header h1 {
+    color: #fbbf24;
+}
+
 .container {
-    max-width: 1100px;
+    max-width: 500px;
     margin: 25px auto;
     padding: 15px;
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-}
-
 .card {
     background: white;
-    padding: 18px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #00000012;
-}
-
-.card h3 {
-    margin: 0 0 10px;
-    color: #475569;
-}
-
-.number {
-    font-size: 28px;
-    font-weight: bold;
-    color: #166534;
+    padding: 22px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px #00000012;
 }
 
 h2 {
-    margin-top: 30px;
+    margin-bottom: 18px;
+    color: #111827;
 }
 
-.table-wrap {
-    overflow-x: auto;
-    background: white;
-    border-radius: 10px;
-    padding: 12px;
-}
-
-table {
+input, select {
     width: 100%;
-    border-collapse: collapse;
-    min-width: 750px;
-}
-
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #e2e8f0;
-    text-align: left;
-}
-
-th {
-    background: #dcfce7;
-}
-
-select, input {
-    padding: 9px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    max-width: 150px;
+    padding: 13px;
+    margin: 9px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
 }
 
 button {
-    background: #166534;
-    color: white;
+    width: 100%;
+    padding: 14px;
     border: none;
-    padding: 10px 15px;
-    border-radius: 6px;
+    border-radius: 8px;
+    background: #f59e0b;
+    color: #111;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 button:hover {
-    background: #14532d;
+    background: #d97706;
 }
 
-.note {
-    background: #fff7ed;
-    padding: 14px;
-    border-radius: 8px;
-    margin-top: 20px;
-    color: #9a3412;
+.vehicle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.vehicle button {
+    background: #e5e7eb;
+    padding: 20px 8px;
+}
+
+.vehicle button.active {
+    background: #fbbf24;
+}
+
+.hidden {
+    display: none;
+}
+
+.fare {
+    background: #ecfdf5;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    line-height: 1.8;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
 }
 </style>
 </head>
@@ -114,142 +113,187 @@ button:hover {
 <body>
 
 <header>
-    <h1>Village Ride</h1>
-    <p>Admin Booking Dashboard</p>
+    <h1>🚖 VILLAGE RIDE</h1>
+    <p>Your Ride, Your Comfort</p>
 </header>
 
 <div class="container">
 
-    <div class="stats">
-        <div class="card">
-            <h3>Total Bookings</h3>
-            <div class="number" id="total">0</div>
-        </div>
-
-        <div class="card">
-            <h3>Pending</h3>
-            <div class="number" id="pending">0</div>
-        </div>
-
-        <div class="card">
-            <h3>Accepted</h3>
-            <div class="number" id="accepted">0</div>
-        </div>
-
-        <div class="card">
-            <h3>Completed</h3>
-            <div class="number" id="completed">0</div>
-        </div>
+    <!-- CUSTOMER LOGIN -->
+    <div class="card" id="loginSection">
+        <h2>Customer Login</h2>
+        <input type="tel" id="mobile"
+        placeholder="Enter Mobile Number"
+        maxlength="10">
+        <button onclick="login()">Login</button>
     </div>
 
-    <h2>Booking Management</h2>
+    <!-- CUSTOMER DETAILS -->
+    <div class="card hidden" id="detailsSection">
+        <h2>Customer Details</h2>
+        <input type="text" id="name"
+        placeholder="Enter Your Name">
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Booking ID</th>
-                    <th>Customer</th>
-                    <th>Mobile</th>
-                    <th>Ride</th>
-                    <th>Pickup</th>
-                    <th>Drop</th>
-                    <th>Status</th>
-                    <th>Driver</th>
-                </tr>
-            </thead>
+        <input type="email" id="email"
+        placeholder="Enter Email (Optional)">
 
-            <tbody id="bookingList">
-                <tr>
-                    <td colspan="8">No bookings available.</td>
-                </tr>
-            </tbody>
-        </table>
+        <button onclick="saveDetails()">Continue</button>
     </div>
 
-    <div class="note">
-        <strong>Demo Admin Panel:</strong>
-        यह अभी केवल पेज का शुरुआती रूप है।
-        असली ग्राहक की बुकिंग दिखाने के लिए Database और Backend जोड़ना बाकी है।
+    <!-- BOOKING SECTION -->
+    <div class="card hidden" id="bookingSection">
+        <h2>Book Your Ride</h2>
+
+        <div class="vehicle">
+            <button id="autoBtn"
+            onclick="selectVehicle('Auto')">
+                🛺<br>Auto
+            </button>
+
+            <button id="bikeBtn"
+            onclick="selectVehicle('Bike')">
+                🏍️<br>Bike
+            </button>
+        </div>
+
+        <input type="text" id="pickup"
+        placeholder="Enter Pickup Location">
+
+        <input type="text" id="drop"
+        placeholder="Enter Drop Location">
+
+        <input type="number" id="km"
+        placeholder="Enter Distance in KM"
+        min="0.1" step="0.1"
+        oninput="calculateFare()">
+
+        <div class="fare">
+            <p>Vehicle: <b id="vehicleName">Not Selected</b></p>
+            <p>Distance: <b id="distance">0 KM</b></p>
+            <p>Estimated Fare: ₹<b id="price">0</b></p>
+        </div>
+
+        <button onclick="confirmBooking()">
+            Confirm Booking
+        </button>
+    </div>
+
+    <!-- BOOKING CONFIRMATION -->
+    <div class="card hidden" id="confirmationSection">
+        <h2>Booking Submitted!</h2>
+        <p id="bookingInfo"></p>
+        <button onclick="location.reload()">New Booking</button>
     </div>
 
 </div>
 
+<footer>
+    <p>© 2026 Village Ride. All Rights Reserved.</p>
+</footer>
+
 <script>
-const bookings = [];
+let vehicle = "";
+let customer = {};
+let fare = 0;
 
-function showBookings() {
-    const list = document.getElementById("bookingList");
+// Demo rates: change according to actual fares
+const rates = {
+    Auto: 15,
+    Bike: 10
+};
 
-    document.getElementById("total").textContent = bookings.length;
-    document.getElementById("pending").textContent =
-        bookings.filter(b => b.status === "Pending").length;
-    document.getElementById("accepted").textContent =
-        bookings.filter(b => b.status === "Accepted").length;
-    document.getElementById("completed").textContent =
-        bookings.filter(b => b.status === "Completed").length;
+function login() {
+    const mobile = document.getElementById("mobile").value;
 
-    if (bookings.length === 0) {
-        list.innerHTML = '<tr><td colspan="8">No bookings available.</td></tr>';
+    if (!/^[0-9]{10}$/.test(mobile)) {
+        alert("Please enter a valid 10 digit mobile number");
         return;
     }
 
-    list.innerHTML = "";
+    customer.mobile = mobile;
 
-    bookings.forEach((booking, index) => {
-        const row = document.createElement("tr");
-
-        const values = [
-            booking.id,
-            booking.customer,
-            booking.mobile,
-            booking.ride,
-            booking.pickup,
-            booking.drop
-        ];
-
-        values.forEach(value => {
-            const cell = document.createElement("td");
-            cell.textContent = value;
-            row.appendChild(cell);
-        });
-
-        const statusCell = document.createElement("td");
-        const status = document.createElement("select");
-
-        ["Pending", "Accepted", "Completed"].forEach(option => {
-            const item = document.createElement("option");
-            item.value = option;
-            item.textContent = option;
-            status.appendChild(item);
-        });
-
-        status.value = booking.status;
-        status.addEventListener("change", () => {
-            bookings[index].status = status.value;
-            showBookings();
-        });
-
-        statusCell.appendChild(status);
-        row.appendChild(statusCell);
-
-        const driverCell = document.createElement("td");
-        const driver = document.createElement("input");
-        driver.placeholder = "Driver name";
-        driver.value = booking.driver || "";
-
-        driver.addEventListener("change", () => {
-            bookings[index].driver = driver.value;
-        });
-
-        driverCell.appendChild(driver);
-        row.appendChild(driverCell);
-
-        list.appendChild(row);
-    });
+    document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("detailsSection").classList.remove("hidden");
 }
 
-showBookings();
+function saveDetails() {
+    const name = document.getElementById("name").value.trim();
+
+    if (!name) {
+        alert("Please enter your name");
+        return;
+    }
+
+    customer.name = name;
+    customer.email = document.getElementById("email").value;
+
+    document.getElementById("detailsSection").classList.add("hidden");
+    document.getElementById("bookingSection").classList.remove("hidden");
+}
+
+function selectVehicle(type) {
+    vehicle = type;
+
+    document.getElementById("vehicleName").innerText = type;
+
+    document.getElementById("autoBtn").classList.toggle(
+        "active", type === "Auto"
+    );
+
+    document.getElementById("bikeBtn").classList.toggle(
+        "active", type === "Bike"
+    );
+
+    calculateFare();
+}
+
+function calculateFare() {
+    const km = parseFloat(document.getElementById("km").value) || 0;
+
+    document.getElementById("distance").innerText = km + " KM";
+
+    fare = vehicle && km > 0
+        ? Math.round(km * rates[vehicle])
+        : 0;
+
+    document.getElementById("price").innerText = fare;
+}
+
+function confirmBooking() {
+    const pickup = document.getElementById("pickup").value.trim();
+    const drop = document.getElementById("drop").value.trim();
+    const km = parseFloat(document.getElementById("km").value);
+
+    if (!vehicle) {
+        alert("Please select Auto or Bike");
+        return;
+    }
+
+    if (!pickup || !drop) {
+        alert("Please enter pickup and drop locations");
+        return;
+    }
+
+    if (!km || km <= 0) {
+        alert("Please enter valid distance");
+        return;
+    }
+
+    calculateFare();
+
+    document.getElementById("bookingInfo").innerHTML =
+        "Customer: " + customer.name +
+        "<br>Mobile: " + customer.mobile +
+        "<br>Vehicle: " + vehicle +
+        "<br>Pickup: " + pickup +
+        "<br>Drop: " + drop +
+        "<br>Distance: " + km + " KM" +
+        "<br>Estimated Fare: ₹" + fare +
+        "<br><br>Demo booking submitted.";
+
+    document.getElementById("bookingSection").classList.add("hidden");
+    document.getElementById("confirmationSection").classList.remove("hidden");
+}
 </script>
 
 </body>
