@@ -3,229 +3,253 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Village Ride</title>
+<title>Village Ride - Admin Panel</title>
 
 <style>
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background: #f0f5f0;
-  color: #222;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+header {
+    background: #166534;
+    color: white;
+    padding: 20px;
+    text-align: center;
 }
 
 .container {
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  padding: 22px;
-  border-radius: 15px;
-  box-shadow: 0 3px 15px #ccc;
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 15px;
 }
 
-h1 {
-  color: #16823b;
-  text-align: center;
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #00000012;
+}
+
+.card h3 {
+    margin: 0 0 10px;
+    color: #475569;
+}
+
+.number {
+    font-size: 28px;
+    font-weight: bold;
+    color: #166534;
 }
 
 h2 {
-  text-align: center;
+    margin-top: 30px;
 }
 
-.subtitle {
-  text-align: center;
-  color: #666;
+.table-wrap {
+    overflow-x: auto;
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
 }
 
-label {
-  display: block;
-  margin-top: 14px;
-  font-weight: bold;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
 }
 
-input, select {
-  width: 100%;
-  padding: 13px;
-  margin-top: 7px;
-  border: 1px solid #ccc;
-  border-radius: 7px;
-  font-size: 16px;
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
 }
 
-.price {
-  background: #e9f7ed;
-  padding: 15px;
-  margin-top: 18px;
-  border-radius: 8px;
-  text-align: center;
+th {
+    background: #dcfce7;
+}
+
+select, input {
+    padding: 9px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    max-width: 150px;
 }
 
 button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 18px;
-  background: #16823b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
+    background: #166534;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 button:hover {
-  background: #10652d;
+    background: #14532d;
 }
 
-.result {
-  display: none;
-  margin-top: 20px;
-  padding: 15px;
-  background: #eef8ff;
-  border-radius: 8px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-
-.demo {
-  text-align: center;
-  color: #777;
-  font-size: 13px;
-  margin-top: 20px;
-}
-
-.driver {
-  margin-top: 12px;
-  padding: 12px;
-  background: #fff6e5;
-  border-radius: 8px;
+.note {
+    background: #fff7ed;
+    padding: 14px;
+    border-radius: 8px;
+    margin-top: 20px;
+    color: #9a3412;
 }
 </style>
 </head>
 
 <body>
 
+<header>
+    <h1>Village Ride</h1>
+    <p>Admin Booking Dashboard</p>
+</header>
+
 <div class="container">
 
-<h1>Village Ride</h1>
-<p class="subtitle">Your Village, Your Ride</p>
+    <div class="stats">
+        <div class="card">
+            <h3>Total Bookings</h3>
+            <div class="number" id="total">0</div>
+        </div>
 
-<h2>Book Your Ride</h2>
+        <div class="card">
+            <h3>Pending</h3>
+            <div class="number" id="pending">0</div>
+        </div>
 
-<label>Select Vehicle</label>
-<select id="vehicle" onchange="updatePrice()">
-  <option value="Bike">Bike</option>
-  <option value="Auto">Auto</option>
-</select>
+        <div class="card">
+            <h3>Accepted</h3>
+            <div class="number" id="accepted">0</div>
+        </div>
 
-<div class="price">
-  <strong>Sample Starting Price</strong>
-  <h2 id="price">₹30</h2>
-  <small>Final fare will depend on distance.</small>
-</div>
+        <div class="card">
+            <h3>Completed</h3>
+            <div class="number" id="completed">0</div>
+        </div>
+    </div>
 
-<label>Pickup Location</label>
-<input id="pickup" type="text"
-placeholder="Enter Pickup Location">
+    <h2>Booking Management</h2>
 
-<label>Drop Location</label>
-<input id="drop" type="text"
-placeholder="Enter Drop Location">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Customer</th>
+                    <th>Mobile</th>
+                    <th>Ride</th>
+                    <th>Pickup</th>
+                    <th>Drop</th>
+                    <th>Status</th>
+                    <th>Driver</th>
+                </tr>
+            </thead>
 
-<label>Passenger Name</label>
-<input id="passenger" type="text"
-placeholder="Enter Your Name">
+            <tbody id="bookingList">
+                <tr>
+                    <td colspan="8">No bookings available.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<label>Mobile Number</label>
-<input id="mobile" type="tel"
-placeholder="Enter Mobile Number">
-
-<button onclick="bookRide()">Book Now</button>
-
-<div class="result" id="result">
-  <h3>Booking Confirmation</h3>
-
-  <p><strong>Booking ID:</strong>
-  <span id="bookingId"></span></p>
-
-  <p><strong>Vehicle:</strong>
-  <span id="showVehicle"></span></p>
-
-  <p><strong>Pickup:</strong>
-  <span id="showPickup"></span></p>
-
-  <p><strong>Drop:</strong>
-  <span id="showDrop"></span></p>
-
-  <p><strong>Passenger:</strong>
-  <span id="showPassenger"></span></p>
-
-  <p><strong>Sample Price:</strong>
-  <span id="showPrice"></span></p>
-
-  <div class="driver">
-    <h3>Driver Details</h3>
-    <p>Driver Name: Not assigned yet</p>
-    <p>Driver Phone: Not available</p>
-    <p>Vehicle Number: Not available</p>
-    <small>Driver details will appear after connecting
-    the real booking system.</small>
-  </div>
-
-  <p><strong>Status:</strong> Demo Booking Only</p>
-</div>
-
-<p class="demo">Village Ride - Demo Version</p>
+    <div class="note">
+        <strong>Demo Admin Panel:</strong>
+        यह अभी केवल पेज का शुरुआती रूप है।
+        असली ग्राहक की बुकिंग दिखाने के लिए Database और Backend जोड़ना बाकी है।
+    </div>
 
 </div>
 
 <script>
-function updatePrice() {
-  const vehicle = document.getElementById("vehicle").value;
+const bookings = [];
 
-  const price = vehicle === "Bike" ? 30 : 60;
+function showBookings() {
+    const list = document.getElementById("bookingList");
 
-  document.getElementById("price").innerText = "₹" + price;
+    document.getElementById("total").textContent = bookings.length;
+    document.getElementById("pending").textContent =
+        bookings.filter(b => b.status === "Pending").length;
+    document.getElementById("accepted").textContent =
+        bookings.filter(b => b.status === "Accepted").length;
+    document.getElementById("completed").textContent =
+        bookings.filter(b => b.status === "Completed").length;
+
+    if (bookings.length === 0) {
+        list.innerHTML = '<tr><td colspan="8">No bookings available.</td></tr>';
+        return;
+    }
+
+    list.innerHTML = "";
+
+    bookings.forEach((booking, index) => {
+        const row = document.createElement("tr");
+
+        const values = [
+            booking.id,
+            booking.customer,
+            booking.mobile,
+            booking.ride,
+            booking.pickup,
+            booking.drop
+        ];
+
+        values.forEach(value => {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+
+        const statusCell = document.createElement("td");
+        const status = document.createElement("select");
+
+        ["Pending", "Accepted", "Completed"].forEach(option => {
+            const item = document.createElement("option");
+            item.value = option;
+            item.textContent = option;
+            status.appendChild(item);
+        });
+
+        status.value = booking.status;
+        status.addEventListener("change", () => {
+            bookings[index].status = status.value;
+            showBookings();
+        });
+
+        statusCell.appendChild(status);
+        row.appendChild(statusCell);
+
+        const driverCell = document.createElement("td");
+        const driver = document.createElement("input");
+        driver.placeholder = "Driver name";
+        driver.value = booking.driver || "";
+
+        driver.addEventListener("change", () => {
+            bookings[index].driver = driver.value;
+        });
+
+        driverCell.appendChild(driver);
+        row.appendChild(driverCell);
+
+        list.appendChild(row);
+    });
 }
 
-function bookRide() {
-  const vehicle = document.getElementById("vehicle").value;
-  const pickup = document.getElementById("pickup").value.trim();
-  const drop = document.getElementById("drop").value.trim();
-  const passenger = document.getElementById("passenger").value.trim();
-  const mobile = document.getElementById("mobile").value.trim();
-
-  if (!pickup || !drop || !passenger || !mobile) {
-    alert("Please fill all details.");
-    return;
-  }
-
-  if (!/^[0-9]{10}$/.test(mobile)) {
-    alert("Please enter a valid 10 digit mobile number.");
-    return;
-  }
-
-  const price = vehicle === "Bike" ? 30 : 60;
-  const bookingId = "VR" + Date.now().toString().slice(-8);
-
-  document.getElementById("bookingId").innerText = bookingId;
-  document.getElementById("showVehicle").innerText = vehicle;
-  document.getElementById("showPickup").innerText = pickup;
-  document.getElementById("showDrop").innerText = drop;
-  document.getElementById("showPassenger").innerText = passenger;
-  document.getElementById("showPrice").innerText = "₹" + price;
-
-  document.getElementById("result").style.display = "block";
-  document.getElementById("result").scrollIntoView({
-    behavior: "smooth"
-  });
-}
-
-updatePrice();
+showBookings();
 </script>
 
 </body>
